@@ -140,6 +140,11 @@ public class Graph {
 		return countPath(goal);		
 	}
 	
+	/**
+	 * Calculates path to the goal from an input node
+	 * 
+	 * @param currentNode
+	 */
 	private void CalculateAPathRecursive(Node currentNode) {
 		currentNode.visited = true;
 		
