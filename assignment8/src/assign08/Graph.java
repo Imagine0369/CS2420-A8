@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 
 /**
@@ -20,6 +21,7 @@ public class Graph {
 	
 	// The node to start the path finding from
 	private Node start;
+	private Node goal;
 	
 	// The size of the maze
 	private int width;
@@ -128,8 +130,68 @@ public class Graph {
 	 */
 	public int CalculateAPath()
 	{
-		// TODO: Fill in this method
-		return 0;		
+		//call recursive method to find the Goal
+		CalculateAPathRecursive(start);
+		
+		//if goal wasn't found in last method
+		if (goal == null) {
+			return 0;
+		}
+		return countPath(goal);		
+	}
+	
+	private void CalculateAPathRecursive(Node currentNode) {
+		currentNode.visited = true;
+		
+		//if currentNode is the goal, exit this method
+		if (currentNode.isGoal) {
+			goal = currentNode;
+			return;
+		}
+		
+		//call a method to make an array list of the node's non-wall neighbors
+		makeNeighbors( currentNode);
+		
+		//check the nodes neighbors for paths
+		for(Node next: currentNode.neighbors) {
+			if(!next.visited) {
+				//tell the next node which node it came from
+				next.cameFrom = currentNode;
+				//call recursive method on the next node 
+				CalculateAPathRecursive(next);
+			}
+		}
+	}
+	
+	/**
+	 * Updates an instance variable of the node's non-wall neighbors
+	 * 
+	 * @param node node to find the neighbors of
+	 */
+	private void makeNeighbors(Node node ) {
+		if(!nodes[node.x+1][node.y].isWall) 
+			node.neighbors.add( nodes[node.x+1][node.y] );
+		if(!nodes[node.x-1][node.y].isWall) 
+			node.neighbors.add( nodes[node.x-1][node.y] );
+		if(!nodes[node.x][node.y+1].isWall) 
+			node.neighbors.add( nodes[node.x][node.y+1] );
+		if(!nodes[node.x][node.y-1].isWall) 
+			node.neighbors.add( nodes[node.x][node.y-1] );
+	}
+	
+	/**
+	 * Given a node, this method counts back to the starting node.
+	 * Also sets the nodes isOnPath instance variable to true.
+	 * 
+	 * @param currentNode	node to find the path back to startt of
+	 * @return				int of how many nodes the input node traveled through
+	 */
+	private int countPath(Node currentNode) {
+		currentNode.isOnPath = true;
+		if (currentNode.cameFrom == null) {
+			return 0;
+		}
+		return 1 + countPath(currentNode.cameFrom);
 	}
 
 	
@@ -141,13 +203,16 @@ public class Graph {
 	private static class Node
 	{
 		// The node's position in the maze
-		private int x, y;
+		private int x, y;//rows, columns
 		
 		// The type of the node
 		private boolean isStart;
 		private boolean isGoal;
 		private boolean isOnPath;
 		private boolean isWall;
+		private boolean visited;
+		private Node cameFrom;
+		private ArrayList<Node> neighbors = new ArrayList<Node>(4);
 		
 		// TODO: You will undoubtedly want to add more members and functionality to this class.
 				
@@ -174,5 +239,10 @@ public class Graph {
 			return " ";
 		}
 	}
+	
+	public static void main(String[] args) {
+		PathFinder.solveMaze("src/assign08/randomSmall.txt",  "src/assign08/solvedGraph.txt",false);
+
+    }
 	
 }
