@@ -223,7 +223,7 @@ public class Graph {
 			isOnPath = false;
 			x = _x;
 			y = _y;
-		}
+		} 
 		
 		@Override
 		public String toString()
