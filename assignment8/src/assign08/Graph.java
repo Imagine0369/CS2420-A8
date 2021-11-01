@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 
 /**
@@ -26,6 +28,8 @@ public class Graph {
 	// The size of the maze
 	private int width;
 	private int height;
+	
+	private LinkedList<Node> queue = new LinkedList<Node>();
 	
 	/**
 	 * Constructs a maze graph from the given text file.
@@ -117,8 +121,33 @@ public class Graph {
 	 */
 	public int CalculateShortestPath()
 	{
-		// TODO: Fill in this method
-		return 0;
+		CalculateShortest(start);
+		
+		if (goal == null) {
+			return 0;
+		}
+		return countPath(goal);	
+	}
+	
+	private void CalculateShortest(Node start) {
+		start.visited = true;
+		queue.offer(start);
+		
+		while(!queue.isEmpty()) {
+			Node curr = queue.poll();
+			
+			if(curr.isGoal) {
+				return;
+			}
+			
+			makeNeighbors(start);
+			
+			for(Node n : start.neighbors) {
+				n.visited = true;
+				n.cameFrom = curr;
+				queue.offer(n);
+			}
+		}
 	}
 
 	
@@ -218,6 +247,7 @@ public class Graph {
 		private boolean visited;
 		private Node cameFrom;
 		private ArrayList<Node> neighbors = new ArrayList<Node>(4);
+		
 		
 		// TODO: You will undoubtedly want to add more members and functionality to this class.
 				
