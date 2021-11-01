@@ -141,7 +141,7 @@ public class Graph {
 	}
 	
 	/**
-	 * Calculates path to the goal from an input node
+	 * Calculates path to the goal from an input node. 
 	 * 
 	 * @param currentNode
 	 */
