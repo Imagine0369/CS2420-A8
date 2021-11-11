@@ -123,32 +123,42 @@ public class Graph {
 	{
 		CalculateShortest(start);
 		
+		//if no goal was found
 		if (goal == null) {
 			return 0;
 		}
 		return countPath(goal);	
 	}
 	
+	/**
+	 * Calculates the shortest path to a goal, given a starting node;
+	 * 
+	 * @param start	Starting node of a graph to find a path to a goal from
+	 */
 	private void CalculateShortest(Node start) {
 		start.visited = true;
 		queue.offer(start);
 		
 		while(!queue.isEmpty()) {
+			//add current node to the queue
 			Node curr = queue.poll();
 			
+			//if the current node is the goal, mark it and exit function
 			if(curr.isGoal) {
 				return;
 			}
 			
+			//update instance variables with non wall neighbors
 			makeNeighbors(start);
 			
+			//add all unvisited neighbors to the queue
 			for(Node n : start.neighbors) {
 				n.visited = true;
 				n.cameFrom = curr;
 				queue.offer(n);
 			}
 		}
-	}
+	}//end CalculateShortest method
 
 	
 	/**
@@ -203,12 +213,16 @@ public class Graph {
 	 * @param node node to find the neighbors of
 	 */
 	private void makeNeighbors(Node node ) {
+		//add node below current neighbors if it's not a wall
 		if(!nodes[node.x+1][node.y].isWall) 
 			node.neighbors.add( nodes[node.x+1][node.y] );
+		//add node above current neighbors if it's not a wall
 		if(!nodes[node.x-1][node.y].isWall) 
 			node.neighbors.add( nodes[node.x-1][node.y] );
+		//add node right of current neighbors if it's not a wall
 		if(!nodes[node.x][node.y+1].isWall) 
 			node.neighbors.add( nodes[node.x][node.y+1] );
+		//add node left of current neighbors if it's not a wall
 		if(!nodes[node.x][node.y-1].isWall) 
 			node.neighbors.add( nodes[node.x][node.y-1] );
 	}
@@ -218,10 +232,11 @@ public class Graph {
 	 * Also sets the nodes isOnPath instance variable to true.
 	 * 
 	 * @param currentNode	node to find the path back to startt of
-	 * @return				int of how many nodes the input node traveled through
+	 * @return		int of how many nodes the input node traveled through
 	 */
 	private int countPath(Node currentNode) {
 		currentNode.isOnPath = true;
+		//if node is the start of the path
 		if (currentNode.cameFrom == null) {
 			return 0;
 		}
@@ -230,7 +245,7 @@ public class Graph {
 
 	
 	/**
-	 * @author Daniel Kopta
+	 * @author Daniel Kopta and SETH POLEVOI and MIKE PHELPS
 	 * 	A node class to assist in the implementation of the graph.
 	 * 	You will need to add additional functionality to this class.
 	 */
@@ -244,12 +259,10 @@ public class Graph {
 		private boolean isGoal;
 		private boolean isOnPath;
 		private boolean isWall;
+		// Data about node's location
 		private boolean visited;
 		private Node cameFrom;
 		private ArrayList<Node> neighbors = new ArrayList<Node>(4);
-		
-		
-		// TODO: You will undoubtedly want to add more members and functionality to this class.
 				
 		public Node(int _x, int _y)
 		{
