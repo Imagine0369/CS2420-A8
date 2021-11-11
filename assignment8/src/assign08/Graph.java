@@ -149,10 +149,10 @@ public class Graph {
 			}
 			
 			//update instance variables with non wall neighbors
-			makeNeighbors(start);
+			makeNeighbors(curr);
 			
 			//add all unvisited neighbors to the queue
-			for(Node n : start.neighbors) {
+			for(Node n : curr.neighbors) {
 				n.visited = true;
 				n.cameFrom = curr;
 				queue.offer(n);
