@@ -288,9 +288,9 @@ public class Graph {
 		}
 	}
 	
-	public static void main(String[] args) {
-		PathFinder.solveMaze("src/assign08/randomSmall.txt",  "src/assign08/solvedGraph.txt",false);
+// 	public static void main(String[] args) {
+// 		PathFinder.solveMaze("src/assign08/randomSmall.txt",  "src/assign08/solvedGraph.txt",false);
 
-    }
+//     }
 	
 }
