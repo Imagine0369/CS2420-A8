@@ -12,7 +12,7 @@ import java.util.Queue;
 
 /**
  * 
- * @author Daniel Kopta
+ * @author Daniel Kopta, SETH POLEOVI and MIKE PHELPS
  * This Graph class acts as a starting point for your maze path finder.
  * Add to this class as needed.
  */
